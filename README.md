@@ -15,8 +15,8 @@ This is a small Arduino project based on a simple heart rate sensor and an OLED 
 
 HRS pin | Arduino pin
 --- | ---
-+ | +5V
-- | GND
+\+ | +5V
+\- | GND
 S | A1
 
 ### OLED display:
