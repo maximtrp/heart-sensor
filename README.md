@@ -1,4 +1,4 @@
-# heartSensor
+# heart-sensor
 
 This is a small Arduino project based on a simple heart rate sensor and an OLED display (SSD1306).
 
