@@ -11,7 +11,7 @@ import numpy as np
 import time
 import datetime as dt
 import matplotlib.animation as animation
-
+import seaborn as sb
 
 filename_date = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S ECG.txt")
 filename_peaks = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S peaks.txt")
@@ -19,15 +19,12 @@ filename_peaks = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S peaks.txt")
 delay_time = 40.
 data = ''
 
-#plt.ion()
+sb.set(font_scale=1.5)
 fig, ax = plt.subplots()
 
-line, = ax.plot(0, 0, 'k-')
+line, = ax.plot(0, 0, 'k-', lw=1)
 plt.ylim(0,1000)
-plt.xlim(0,4000)
-
-#fig.show()
-#fig.canvas.draw()
+plt.xlim(0,1000)
 
 srl = serial.Serial("/dev/ttyUSB0", baudrate = 115200, timeout = 0)
 time.sleep(2)
@@ -48,9 +45,11 @@ def animate(i):
 
     line.set_xdata(x)
     line.set_ydata(y)
+
+    ax.set_xlim(len(x) // 1000 * 1000, ((len(x)//1000)+1) * 1000)
     return line,
 
-ani = animation.FuncAnimation(fig, animate, init_func=init, interval=40, blit=True, frames=4000, repeat=False)
+ani = animation.FuncAnimation(fig, animate, init_func=init, interval=40, blit=True, frames=7500, repeat=False)
 plt.show()
 
 srl.write(b'0')
