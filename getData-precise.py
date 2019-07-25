@@ -12,7 +12,7 @@ filename_date = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S ECG.txt")
 filename_peaks = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S peaks.txt")
 
 delay_time = 1
-total_length = int(0.5 * 60 * 1000 / delay_time)
+total_length = int(5 * 60 * 1000 / delay_time)
 #data = np.empty(total_length // delay_time, dtype=np.string_)
 data = ''
 srl = serial.Serial("/dev/ttyUSB0", baudrate = 115200, timeout = 0)
