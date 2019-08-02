@@ -11,21 +11,37 @@ import peakutils as pu
 filename_date = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S ECG.txt")
 filename_peaks = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S peaks.txt")
 
-delay_time = 1
-total_length = int(6.5 * 60 * 1000 / delay_time)
-#data = np.empty(total_length // delay_time, dtype=np.string_)
+delay_time = 1 # ms
+total_length = int(300000 / delay_time) # ms
 data = ''
 srl = serial.Serial("/dev/ttyUSB0", baudrate = 115200,
-                    timeout = delay_time/1000, dsrdtr = True)
+                    timeout = delay_time/1000)
 
 time.sleep(2)
 
-print('Beginning...')
 srl.write(b'1')
 srl.reset_input_buffer()
 
-for i in tqdm.trange(total_length):
-    data += srl.readline().decode('cp1251')
+t = tqdm.tqdm(total=total_length)
+n = 0
+t1 = 0
+t2 = 0
+td = 0
+while True:
+    line = srl.readline().decode('cp1251')
+    data += line
+    if n % 100000:
+        s = re.search(r'[\r\n]*(\d+)', line)
+        if s:
+            if not t1:
+                t1 = int(s.group(0))
+            t2 = int(s.group(0))
+            if t2 > t1 and t2 - t1 > td:
+                t.update(t2 - t1 - td)
+                td = t2 - t1
+    if td >= total_length:
+        break
+    n += 1
 
 srl.write(b'0')
 srl.close()
