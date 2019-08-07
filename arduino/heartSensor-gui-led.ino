@@ -1,7 +1,7 @@
 #include <U8g2lib.h>
 
 #define PIN 0
-#define DT 10.0
+#define DT 10
 #define LED 13
 #define CYCLELIM 350
 #define THRES 550
