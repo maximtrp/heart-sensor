@@ -7,9 +7,9 @@ import datetime as dt
 import re
 import tqdm
 import peakutils as pu
+import gzip
 
-filename_date = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S ECG.txt")
-filename_peaks = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S peaks.txt")
+filename_date = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S ECG.txt.gz")
 
 delay_time = 1 # ms
 total_length = int(300000 / delay_time) # ms
