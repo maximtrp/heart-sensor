@@ -1,0 +1,4 @@
+peakutils
+tqdm
+pyserial
+numpy
