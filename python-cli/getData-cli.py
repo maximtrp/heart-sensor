@@ -6,8 +6,6 @@ import time
 import datetime as dt
 import re
 import tqdm
-import peakutils as pu
-import gzip
 
 filename_date = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S ECG.txt.gz")
 
