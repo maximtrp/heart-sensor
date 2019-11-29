@@ -1,0 +1,6 @@
+peakutils
+tqdm
+pyserial
+numpy
+matplotlib
+seaborn
