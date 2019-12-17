@@ -10,7 +10,7 @@ import tqdm
 filename_date = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S ECG.txt.gz")
 
 delay_time = 1 # ms
-total_length = int(300000 / delay_time) # ms
+total_length = int(300 * 10**3 / delay_time) # ms
 data = ''
 srl = serial.Serial("/dev/ttyUSB0", baudrate = 115200,
                     timeout = delay_time/1000)
@@ -46,8 +46,8 @@ srl.close()
 
 y_lines = re.split(r'[\r\n]+', data.strip())
 xy = list(map(lambda x: list(map(int, x.split(" "))), y_lines))
-xy = np.array(xy)
+xy = np.array(xy, dtype=np.int)
 y = xy[:, 1]
 x = xy[:, 0]
 
-np.savetxt(filename_date, xy)
+np.savetxt(filename_date, xy, fmt='%d')
