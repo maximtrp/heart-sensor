@@ -6,6 +6,7 @@ import time
 import datetime as dt
 import re
 import tqdm
+import sys
 
 filename_date = dt.datetime.now().strftime("%Y-%m-%d %H-%M-%S ECG.txt.gz")
 
@@ -20,7 +21,7 @@ time.sleep(2)
 srl.write(b'1')
 srl.reset_input_buffer()
 
-t = tqdm.tqdm(total=total_length)
+progress_bar = tqdm.tqdm(total=total_length)
 n = 0
 t1 = 0
 t2 = 0
@@ -35,7 +36,7 @@ while True:
                 t1 = int(s.group(0))
             t2 = int(s.group(0))
             if t2 > t1 and t2 - t1 > td:
-                t.update(t2 - t1 - td)
+                progress_bar.update(t2 - t1 - td)
                 td = t2 - t1
     if td >= total_length:
         break
