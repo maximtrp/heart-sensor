@@ -15,12 +15,14 @@ import (
 	"github.com/tarm/serial"
 )
 
+func checkError(e error) {
+	if e != nil {
+		log.Fatal(e)
+	}
+}
+
 func startSending(p *serial.Port) error {
 	_, err := p.Write([]byte("1"))
-	if err != nil {
-		return err
-	}
-	err = p.Flush()
 	if err != nil {
 		return err
 	}
@@ -67,16 +69,14 @@ func main() {
 	fmt.Println("[1] Port init")
 	c := &serial.Config{Name: "/dev/ttyUSB0", Baud: 115200, ReadTimeout: time.Millisecond}
 	s, err := serial.OpenPort(c)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(err)
+
+	time.Sleep(2 * time.Second)
 
 	// Sending bit to receive data
 	fmt.Println("[2] Sending a start bit")
 	err = startSending(s)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(err)
 
 	// Reading data
 	fmt.Println("[3] Getting data")
@@ -110,9 +110,7 @@ func main() {
 	w.Close()
 
 	err = ioutil.WriteFile(fn, b.Bytes(), 0644)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(err)
 
 	defer s.Close()
 }
