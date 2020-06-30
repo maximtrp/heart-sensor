@@ -124,8 +124,9 @@ void HSWindow::saveFile() {
     int startLen = readData.indexOf(QString("\r\n")) + 2;
     int endIdx = readData.lastIndexOf(QString("\r\n"));
     int endLen = readData.count() - endIdx;
-    readData.remove(0, startLen);
     readData.remove(endIdx, endLen);
+    readData.remove(0, startLen);
+    qDebug() << endIdx;
     outStream << readData;
     outputFile.close();
 }
