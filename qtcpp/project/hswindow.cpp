@@ -77,6 +77,8 @@ void HSWindow::startRecording() {
         isRecording = true;
         ui->recButton->setText("Stop recording");
         series->clear();
+        auto xAxis = chart->axes(Qt::Horizontal).back();
+        xAxis->setRange(0, 50000);
         QCoreApplication::processEvents();
 
         this->serialOpen();
@@ -126,7 +128,7 @@ void HSWindow::saveFile() {
     int endLen = readData.count() - endIdx;
     readData.remove(endIdx, endLen);
     readData.remove(0, startLen);
-    qDebug() << endIdx;
+    //qDebug() << endIdx;
     outStream << readData;
     outputFile.close();
 }
@@ -147,6 +149,7 @@ HSWindow::HSWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->serialRefresh();
+    this->setWindowTitle("Heart Sensor");
     QPushButton *recButton = ui->recButton;
     QPushButton *refreshSerialButton = ui->refreshSerialButton;
 
