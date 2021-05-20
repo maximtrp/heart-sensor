@@ -14,11 +14,10 @@ qmake -makefile
 make
 ```
 
-## Running 
+## Running
 
 Just run in terminal:
 
 ```bash
 ./sensorqt
 ```
-

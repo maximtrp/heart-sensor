@@ -77,6 +77,7 @@ void HSWindow::startRecording() {
         isRecording = true;
         ui->recButton->setText("Stop recording");
         series->clear();
+        readData.clear();
         auto xAxis = chart->axes(Qt::Horizontal).back();
         xAxis->setRange(0, 50000);
         QCoreApplication::processEvents();
@@ -123,8 +124,8 @@ void HSWindow::saveFile() {
     outputFile.open(QIODevice::WriteOnly);
 
     QTextStream outStream(&outputFile);
-    int startLen = readData.indexOf(QString("\r\n")) + 2;
-    int endIdx = readData.lastIndexOf(QString("\r\n"));
+    int startLen = readData.indexOf(QString("\r\n").toUtf8()) + 2;
+    int endIdx = readData.lastIndexOf(QString("\r\n").toUtf8());
     int endLen = readData.count() - endIdx;
     readData.remove(endIdx, endLen);
     readData.remove(0, startLen);
@@ -154,6 +155,7 @@ HSWindow::HSWindow(QWidget *parent)
     QPushButton *refreshSerialButton = ui->refreshSerialButton;
 
     series = new QLineSeries();
+    series->setUseOpenGL(true);
     QPen pen = series->pen();
     pen.setWidth(1);
     series->setPen(pen);
@@ -189,7 +191,7 @@ HSWindow::HSWindow(QWidget *parent)
 
     chartView = ui->heartChart;
     chartView->setChart(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setRenderHint(QPainter::Antialiasing, true);
 
     serialPort = new QSerialPort;
     QObject::connect(recButton, SIGNAL(clicked()), this, SLOT(startRecording()));
